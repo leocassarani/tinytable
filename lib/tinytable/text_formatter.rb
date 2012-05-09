@@ -45,11 +45,11 @@ class TinyTable
 
     def row(r)
       append VERTICAL
-      r.each_with_index { |c, i| col(c, i) }
+      r.each_with_index { |c, i| cell(c, i) }
       new_line
     end
 
-    def col(text, i)
+    def cell(text, i)
       append PADDING
       append text
       width = @col_widths[i]
