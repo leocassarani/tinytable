@@ -47,4 +47,23 @@ describe "A Tiny Table" do
 +------------+----------+
     EOF
   end
+
+  it "supports both a header and a footer" do
+    table = TinyTable.new(%w[City County Population])
+    table << ["London", "Greater London", 8_294_058]
+    table << ["Birmingham", "West Midlands", 2_293_099]
+    table << ["Manchester", "Greater Manchester", 1_741_961]
+    table.footer = ["Total", nil, 12_329_118]
+    table.to_text.should == <<-EOF
++------------+--------------------+------------+
+| City       | County             | Population |
++------------+--------------------+------------+
+| London     | Greater London     | 8294058    |
+| Birmingham | West Midlands      | 2293099    |
+| Manchester | Greater Manchester | 1741961    |
++------------+--------------------+------------+
+| Total      |                    | 12329118   |
++------------+--------------------+------------+
+    EOF
+  end
 end
