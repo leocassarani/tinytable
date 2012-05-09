@@ -1,3 +1,5 @@
+require File.expand_path('../layout', __FILE__)
+
 class TinyTable
   class TextFormatter
     CORNER = '+'
@@ -12,10 +14,12 @@ class TinyTable
 
     def render
       @output.clear
-      calculate_column_sizes
+      precompute_column_widths
+
       render_header
       render_rows
       render_footer
+
       @output
     end
 
@@ -43,7 +47,7 @@ class TinyTable
 
     def hr
       append CORNER
-      @col_widths.each do |w|
+      @column_widths.each do |w|
         append HORIZONTAL * (w + 2)
         append CORNER
       end
@@ -60,7 +64,7 @@ class TinyTable
       append PADDING
       append text
 
-      cell_width = @col_widths[i]
+      cell_width = @column_widths[i]
       text_width = text.to_s.length
       if text_width < cell_width
         append PADDING * (cell_width - text_width)
@@ -78,34 +82,9 @@ class TinyTable
       append "\n"
     end
 
-    def calculate_column_sizes
-      @col_widths = if @table.has_header?
-        @table.header.map { |cell| cell.to_s.length }
-      else
-        []
-      end
-
-      @table.each_row do |r|
-        r.each_with_index do |cell, i|
-          max_width = @col_widths[i]
-          cell_width = cell.to_s.length
-
-          if max_width.nil? || cell_width > max_width
-            @col_widths[i] = cell_width
-          end
-        end
-      end
-
-      if @table.has_footer?
-        @table.footer.each_with_index do |cell, i|
-          max_width = @col_widths[i]
-          cell_width = cell.to_s.length
-
-          if max_width.nil? || cell_width > max_width
-            @col_widths[i] = cell_width
-          end
-        end
-      end
+    def precompute_column_widths
+      layout = Layout.new(@table)
+      @column_widths = layout.max_column_widths
     end
   end
 end
