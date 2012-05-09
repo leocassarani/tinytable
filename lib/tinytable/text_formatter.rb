@@ -26,9 +26,12 @@ class TinyTable
     def calculate_column_sizes
       @col_widths = []
       @table.each_row do |r|
-        r.each_with_index do |col, i|
-          if @col_widths[i].nil? || col.length > @col_widths[i]
-            @col_widths[i] = col.length
+        r.each_with_index do |cell, i|
+          max_width = @col_widths[i]
+          cell_width = cell.to_s.length
+
+          if max_width.nil? || cell_width > max_width
+            @col_widths[i] = cell_width
           end
         end
       end
@@ -52,16 +55,19 @@ class TinyTable
     def cell(text, i)
       append PADDING
       append text
-      width = @col_widths[i]
-      if text.length < width
-        append PADDING * (width - text.length)
+
+      cell_width = @col_widths[i]
+      text_width = text.to_s.length
+      if text_width < cell_width
+        append PADDING * (cell_width - text_width)
       end
+
       append PADDING
       append VERTICAL
     end
 
     def append(text)
-      @output << text
+      @output << text.to_s
     end
 
     def new_line
