@@ -31,5 +31,20 @@ describe "A Tiny Table" do
     EOF
   end
 
-  it "supports a footer"
+  it "supports a footer" do
+    table = TinyTable.new
+    table << ["Londoners", 8_294_058]
+    table << ["Brummies", 2_293_099]
+    table << ["Mancunians", 1_741_961]
+    table.footer = ["Total", 12_329_118]
+    table.to_text.should == <<-EOF
++------------+----------+
+| Londoners  | 8294058  |
+| Brummies   | 2293099  |
+| Mancunians | 1741961  |
++------------+----------+
+| Total      | 12329118 |
++------------+----------+
+    EOF
+  end
 end

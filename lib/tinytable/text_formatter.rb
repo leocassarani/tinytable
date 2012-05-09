@@ -23,6 +23,11 @@ class TinyTable
       @table.each_row { |r| row(r) }
       hr
 
+      if @table.has_footer?
+        row(@table.footer)
+        hr
+      end
+
       @output
     end
 
@@ -37,6 +42,17 @@ class TinyTable
 
       @table.each_row do |r|
         r.each_with_index do |cell, i|
+          max_width = @col_widths[i]
+          cell_width = cell.to_s.length
+
+          if max_width.nil? || cell_width > max_width
+            @col_widths[i] = cell_width
+          end
+        end
+      end
+
+      if @table.has_footer?
+        @table.footer.each_with_index do |cell, i|
           max_width = @col_widths[i]
           cell_width = cell.to_s.length
 

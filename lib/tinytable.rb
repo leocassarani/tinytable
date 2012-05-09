@@ -3,6 +3,7 @@ require "tinytable/text_formatter"
 
 class TinyTable
   attr_reader :header, :rows
+  attr_accessor :footer
 
   def initialize(header = nil)
     @header = header
@@ -15,6 +16,10 @@ class TinyTable
 
   def has_header?
     !(header.nil? || header.empty?)
+  end
+
+  def has_footer?
+    !(footer.nil? || footer.empty?)
   end
 
   def each_row(&block)

@@ -33,8 +33,23 @@ describe TinyTable do
       subject.header.should == %w[City County]
     end
 
-    it "doesn't store the header along with regular rows" do
+    it "doesn't return the header along with regular rows" do
       subject << row
+      subject.rows.should == [row]
+    end
+  end
+
+  context "given a footer row" do
+    let(:footer) { %w[Total 12329118] }
+
+    it "can store and recall a footer row" do
+      subject.footer = footer
+      subject.footer.should == footer
+    end
+
+    it "doesn't return the footer along with regular rows" do
+      subject << row
+      subject.footer = footer
       subject.rows.should == [row]
     end
   end
