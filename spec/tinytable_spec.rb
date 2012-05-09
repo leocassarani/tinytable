@@ -25,4 +25,17 @@ describe TinyTable do
     TinyTable::TextFormatter.stub(:new).with(subject) { formatter }
     subject.to_text.should == "ASCII table"
   end
+
+  context "given a header row" do
+    subject { TinyTable.new(%w[City County]) }
+
+    it "can store and recall a header row" do
+      subject.header.should == %w[City County]
+    end
+
+    it "doesn't store the header along with regular rows" do
+      subject << row
+      subject.rows.should == [row]
+    end
+  end
 end

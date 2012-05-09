@@ -14,6 +14,11 @@ class TinyTable
       @output.clear
       calculate_column_sizes
 
+      if @table.has_header?
+        hr
+        row(@table.header)
+      end
+
       hr
       @table.each_row { |r| row(r) }
       hr
@@ -24,7 +29,12 @@ class TinyTable
   private
 
     def calculate_column_sizes
-      @col_widths = []
+      @col_widths = if @table.has_header?
+        @table.header.map { |cell| cell.to_s.length }
+      else
+        []
+      end
+
       @table.each_row do |r|
         r.each_with_index do |cell, i|
           max_width = @col_widths[i]

@@ -1,7 +1,7 @@
 require File.expand_path('../../../lib/tinytable/text_formatter', __FILE__)
 
 describe TinyTable::TextFormatter do
-  let(:table) { stub(:table) }
+  let(:table) { stub(:table, :has_header? => false) }
   subject { TinyTable::TextFormatter.new(table) }
 
   it "formats a TinyTable as an ASCII table" do
@@ -34,6 +34,19 @@ describe TinyTable::TextFormatter do
 | London  | 8294058 |
 | Bristol | 558566  |
 +---------+---------+
+    EOF
+  end
+
+  it "renders the header row if the table has one" do
+    table.stub(:has_header?) { true }
+    table.stub(:header) { %w[City County] }
+    table.stub(:each_row).and_yield(%w[Southampton Hampshire])
+    subject.render.should == <<-EOF
++-------------+-----------+
+| City        | County    |
++-------------+-----------+
+| Southampton | Hampshire |
++-------------+-----------+
     EOF
   end
 end
