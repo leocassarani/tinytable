@@ -6,7 +6,7 @@ end
 
 describe TinyTable do
   subject { TinyTable.new }
-  let(:row) { %[Liverpool Merseyside] }
+  let(:row) { %w[Liverpool Merseyside] }
 
   it "can store and recall rows" do
     subject << row
@@ -27,7 +27,7 @@ describe TinyTable do
   end
 
   context "given a header row" do
-    let(:header) { %[City County] }
+    let(:header) { %w[City County] }
 
     it "can store and recall a header row" do
       subject.header = header
