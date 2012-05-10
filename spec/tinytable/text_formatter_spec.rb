@@ -6,7 +6,7 @@ end
 
 describe TinyTable::TextFormatter do
   let(:table) { stub(:table, :has_header? => false, :has_footer? => false) }
-  let(:layout) { stub(:layout) }
+  let(:layout) { stub(:layout, :column_count => 2) }
   before { TinyTable::Layout.stub(:new).with(table) { layout } }
   subject { TinyTable::TextFormatter.new(table) }
 
@@ -38,6 +38,7 @@ describe TinyTable::TextFormatter do
     table.stub(:header) { %w[City County] }
     table.stub(:each_row).and_yield(%w[Southampton Hampshire])
     layout.stub(:max_column_widths) { ["Southampton".length, "Hampshire".length] }
+
     subject.render.should == <<-EOF
 +-------------+-----------+
 | City        | County    |
@@ -50,9 +51,11 @@ describe TinyTable::TextFormatter do
   it "renders the footer row if the table has one" do
     row1 = %w[Londoners 8294058]
     row2 = %w[Brummies 2293099]
+
     table.stub(:has_footer?) { true }
     table.stub(:footer) { %w[Total 10587157] }
     table.stub(:each_row).and_yield(row1).and_yield(row2)
+
     layout.stub(:max_column_widths) { ["Londoners".length, "10587157".length] }
     subject.render.should == <<-EOF
 +-----------+----------+
@@ -61,6 +64,22 @@ describe TinyTable::TextFormatter do
 +-----------+----------+
 | Total     | 10587157 |
 +-----------+----------+
+    EOF
+  end
+
+  it "renders empty cells if a row has fewer columns than the rest" do
+    row1 = ["London", "Greater London", "Boris Johnson"]
+    row2 = ["Sheffield", "Yorkshire"]
+    table.stub(:each_row).and_yield(row1).and_yield(row2)
+
+    layout.stub(:max_column_widths) { ["Sheffield".length, "Greater London".length, "Boris Johnson".length] }
+    layout.stub(:column_count) { 3 }
+
+    subject.render.should == <<-EOF
++-----------+----------------+---------------+
+| London    | Greater London | Boris Johnson |
+| Sheffield | Yorkshire      |               |
++-----------+----------------+---------------+
     EOF
   end
 end

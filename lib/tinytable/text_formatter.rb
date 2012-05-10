@@ -12,7 +12,7 @@ module TinyTable
 
     def render
       @output.clear
-      precompute_column_widths
+      precompute_table_layout
 
       render_header
       render_rows
@@ -54,7 +54,12 @@ module TinyTable
 
     def render_row(row)
       append VERTICAL
-      row.each_with_index { |cell, i| render_cell(cell, i) }
+
+      @column_count.times do |i|
+        cell = row.fetch(i, '')
+        render_cell(cell, i)
+      end
+
       new_line
     end
 
@@ -80,8 +85,9 @@ module TinyTable
       append "\n"
     end
 
-    def precompute_column_widths
+    def precompute_table_layout
       layout = Layout.new(@table)
+      @column_count = layout.column_count
       @column_widths = layout.max_column_widths
     end
   end

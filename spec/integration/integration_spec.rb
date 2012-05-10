@@ -86,4 +86,20 @@ describe "A Tiny Table" do
 +------------+--------------------+------------+
     EOF
   end
+
+  it "correctly handles rows with fewer cells than the rest" do
+    table = TinyTable.new("City", "County", "Mayor")
+    table.add "London", "Greater London", "Boris Johnson"
+    table.add "Sheffield", "Yorkshire"
+    table.add "Bristol"
+    table.to_text.should == <<-EOF
++-----------+----------------+---------------+
+| City      | County         | Mayor         |
++-----------+----------------+---------------+
+| London    | Greater London | Boris Johnson |
+| Sheffield | Yorkshire      |               |
+| Bristol   |                |               |
++-----------+----------------+---------------+
+    EOF
+  end
 end
