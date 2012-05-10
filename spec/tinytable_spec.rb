@@ -55,4 +55,37 @@ describe TinyTable do
       subject.rows.should == [row]
     end
   end
+
+  it "supports a number of different ways to add new rows" do
+    subject.add "London", "Greater London"
+    subject.add ["Birmingham", "West Midlands"]
+    subject << ["Manchester", "Greater Manchester"]
+    subject.rows.should == [
+      ["London", "Greater London"],
+      ["Birmingham", "West Midlands"],
+      ["Manchester", "Greater Manchester"]
+    ]
+  end
+
+  it "supports a number of different ways to set the header" do
+    subject.header = ["City", "County"]
+    subject.header.should == ["City", "County"]
+
+    subject.header = "City", "County"
+    subject.header.should == ["City", "County"]
+
+    subject = TinyTable.new("City", "County")
+    subject.header.should == ["City", "County"]
+
+    subject = TinyTable.new ["City", "County"]
+    subject.header.should == ["City", "County"]
+  end
+
+  it "supports a number of different ways to set the footer" do
+    subject.footer = ["Total", "300"]
+    subject.footer.should == ["Total", "300"]
+
+    subject.footer = "Total", "300"
+    subject.footer.should == ["Total", "300"]
+  end
 end

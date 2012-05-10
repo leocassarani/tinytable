@@ -5,14 +5,17 @@ class TinyTable
   attr_accessor :header, :footer
   attr_reader :rows
 
-  def initialize(header = nil)
+  def initialize(*args)
+    header = args.first.is_a?(Array) ? args.first : args
     @header = header
     @rows = []
   end
 
-  def <<(row)
+  def add(*args)
+    row = args.first.is_a?(Array) ? args.first : args
     rows << row
   end
+  alias_method :<<, :add
 
   def has_header?
     !(header.nil? || header.empty?)
