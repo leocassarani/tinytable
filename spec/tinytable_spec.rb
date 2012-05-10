@@ -21,7 +21,7 @@ describe TinyTable do
   end
 
   it "uses a TextFormatter to output an ASCII table" do
-    formatter = stub(:render => "ASCII table")
+    formatter = stub(:formatter, :render => "ASCII table")
     TinyTable::TextFormatter.stub(:new).with(subject) { formatter }
     subject.to_text.should == "ASCII table"
   end
