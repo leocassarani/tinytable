@@ -1,4 +1,4 @@
-class TinyTable
+module TinyTable
   class Layout
     attr_reader :column_count, :max_column_widths
 

@@ -1,6 +1,4 @@
-require File.expand_path('../layout', __FILE__)
-
-class TinyTable
+module TinyTable
   class TextFormatter
     CORNER = '+'
     VERTICAL = '|'

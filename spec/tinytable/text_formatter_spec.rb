@@ -1,11 +1,18 @@
 require File.expand_path('../../../lib/tinytable/text_formatter', __FILE__)
 
+module TinyTable
+  class Layout ; end
+end
+
 describe TinyTable::TextFormatter do
   let(:table) { stub(:table, :has_header? => false, :has_footer? => false) }
+  let(:layout) { stub(:layout) }
+  before { TinyTable::Layout.stub(:new).with(table) { layout } }
   subject { TinyTable::TextFormatter.new(table) }
 
   it "formats a TinyTable as an ASCII table" do
     table.stub(:each_row).and_yield(%w[Liverpool Merseyside])
+    layout.stub(:max_column_widths) { ["Liverpool".length, "Merseyside".length] }
     subject.render.should == <<-EOF
 +-----------+------------+
 | Liverpool | Merseyside |
@@ -17,6 +24,7 @@ describe TinyTable::TextFormatter do
     row1 = %w[Liverpool Merseyside]
     row2 = %w[Nottingham Nottinghamshire]
     table.stub(:each_row).and_yield(row1).and_yield(row2)
+    layout.stub(:max_column_widths) { ["Nottingham".length, "Nottinghamshire".length] }
     subject.render.should == <<-EOF
 +------------+-----------------+
 | Liverpool  | Merseyside      |
@@ -29,6 +37,7 @@ describe TinyTable::TextFormatter do
     table.stub(:has_header?) { true }
     table.stub(:header) { %w[City County] }
     table.stub(:each_row).and_yield(%w[Southampton Hampshire])
+    layout.stub(:max_column_widths) { ["Southampton".length, "Hampshire".length] }
     subject.render.should == <<-EOF
 +-------------+-----------+
 | City        | County    |
@@ -44,6 +53,7 @@ describe TinyTable::TextFormatter do
     table.stub(:has_footer?) { true }
     table.stub(:footer) { %w[Total 10587157] }
     table.stub(:each_row).and_yield(row1).and_yield(row2)
+    layout.stub(:max_column_widths) { ["Londoners".length, "10587157".length] }
     subject.render.should == <<-EOF
 +-----------+----------+
 | Londoners | 8294058  |

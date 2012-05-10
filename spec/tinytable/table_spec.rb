@@ -1,11 +1,11 @@
-require File.expand_path('../../lib/tinytable', __FILE__)
+require File.expand_path('../../../lib/tinytable/table', __FILE__)
 
-class TinyTable
+module TinyTable
   class TextFormatter ; end
 end
 
-describe TinyTable do
-  subject { TinyTable.new }
+describe TinyTable::Table do
+  subject { TinyTable::Table.new }
   let(:row) { %w[Liverpool Merseyside] }
 
   it "can store and recall rows" do
@@ -74,10 +74,10 @@ describe TinyTable do
     subject.header = "City", "County"
     subject.header.should == ["City", "County"]
 
-    subject = TinyTable.new("City", "County")
+    subject = TinyTable::Table.new("City", "County")
     subject.header.should == ["City", "County"]
 
-    subject = TinyTable.new ["City", "County"]
+    subject = TinyTable::Table.new ["City", "County"]
     subject.header.should == ["City", "County"]
   end
 
