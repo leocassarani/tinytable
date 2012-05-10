@@ -49,7 +49,8 @@ describe "A Tiny Table" do
   end
 
   it "supports both a header and a footer" do
-    table = TinyTable.new(%w[City County Population])
+    table = TinyTable.new
+    table.header = %w[City County Population]
     table << ["London", "Greater London", 8_294_058]
     table << ["Birmingham", "West Midlands", 2_293_099]
     table << ["Manchester", "Greater Manchester", 1_741_961]

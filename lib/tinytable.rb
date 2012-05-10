@@ -2,8 +2,8 @@ require "tinytable/version"
 require "tinytable/text_formatter"
 
 class TinyTable
-  attr_reader :header, :rows
-  attr_accessor :footer
+  attr_accessor :header, :footer
+  attr_reader :rows
 
   def initialize(header = nil)
     @header = header

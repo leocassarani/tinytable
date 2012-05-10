@@ -27,13 +27,15 @@ describe TinyTable do
   end
 
   context "given a header row" do
-    subject { TinyTable.new(%w[City County]) }
+    let(:header) { %[City County] }
 
     it "can store and recall a header row" do
-      subject.header.should == %w[City County]
+      subject.header = header
+      subject.header.should == header
     end
 
     it "doesn't return the header along with regular rows" do
+      subject.header = header
       subject << row
       subject.rows.should == [row]
     end
