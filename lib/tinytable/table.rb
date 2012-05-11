@@ -41,6 +41,8 @@ module TinyTable
       when Hash
         if has_header?
           header.map { |key| args.first[key] }
+        else
+          []
         end
       else
         args

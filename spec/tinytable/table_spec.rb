@@ -90,4 +90,10 @@ describe TinyTable::Table do
       ["Winchester", "Hampshire", nil]
     ]
   end
+
+  it "inserts an empty row if a hash is given without a header row" do
+    subject.add 'City' => "Reading", 'County' => "Berkshire"
+    subject.add 'Party' => "Labour", 'Leader' => "Ed Milliband"
+    subject.rows.should == [[], []]
+  end
 end
