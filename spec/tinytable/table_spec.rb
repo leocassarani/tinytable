@@ -26,34 +26,26 @@ describe TinyTable::Table do
     subject.to_text.should == "ASCII table"
   end
 
-  context "given a header row" do
-    let(:header) { %w[City County] }
-
-    it "can store and recall a header row" do
-      subject.header = header
-      subject.header.should == header
-    end
-
-    it "doesn't return the header along with regular rows" do
-      subject.header = header
-      subject << row
-      subject.rows.should == [row]
-    end
+  it "can store and recall a header row" do
+    subject.header = ["City", "County"]
+    subject.header.should == ["City", "County"]
   end
 
-  context "given a footer row" do
-    let(:footer) { %w[Total 12329118] }
+  it "doesn't return the header along with regular rows" do
+    subject.header = ["City", "County"]
+    subject << row
+    subject.rows.should == [row]
+  end
 
-    it "can store and recall a footer row" do
-      subject.footer = footer
-      subject.footer.should == footer
-    end
+  it "can store and recall a footer row" do
+    subject.footer = ["Total", "123.45"]
+    subject.footer.should == ["Total", "123.45"]
+  end
 
-    it "doesn't return the footer along with regular rows" do
-      subject << row
-      subject.footer = footer
-      subject.rows.should == [row]
-    end
+  it "doesn't return the footer along with regular rows" do
+    subject << row
+    subject.footer = ["Total", "123.45"]
+    subject.rows.should == [row]
   end
 
   it "supports a number of different ways to add new rows" do
@@ -87,5 +79,15 @@ describe TinyTable::Table do
 
     subject.footer = "Total", "300"
     subject.footer.should == ["Total", "300"]
+  end
+
+  it "allows a row to be entered as a hash with header titles as its keys" do
+    subject.header = "City", "County", "Population"
+    subject.add 'City' => "Reading", 'Population' => 373_836, 'County' => "Berkshire"
+    subject << { 'County' => "Hampshire", 'City' => "Winchester" }
+    subject.rows.should == [
+      ["Reading", "Berkshire", 373_836],
+      ["Winchester", "Hampshire", nil]
+    ]
   end
 end

@@ -68,7 +68,23 @@ describe "A Tiny Table" do
     EOF
   end
 
-  it "supports an alternative syntax based on argument lists instead of arrays" do
+  it "correctly handles rows with fewer cells than the rest" do
+    table = TinyTable.new("City", "County", "Mayor")
+    table.add "London", "Greater London", "Boris Johnson"
+    table.add "Sheffield", "Yorkshire"
+    table.add "Bristol"
+    table.to_text.should == <<-EOF
++-----------+----------------+---------------+
+| City      | County         | Mayor         |
++-----------+----------------+---------------+
+| London    | Greater London | Boris Johnson |
+| Sheffield | Yorkshire      |               |
+| Bristol   |                |               |
++-----------+----------------+---------------+
+    EOF
+  end
+
+  it "supports an alternative syntax based on argument lists" do
     table = TinyTable.new("City", "County", "Population")
     table.add "London", "Greater London", 8_294_058
     table.add "Birmingham", "West Midlands", 2_293_099
@@ -87,18 +103,18 @@ describe "A Tiny Table" do
     EOF
   end
 
-  it "correctly handles rows with fewer cells than the rest" do
-    table = TinyTable.new("City", "County", "Mayor")
-    table.add "London", "Greater London", "Boris Johnson"
-    table.add "Sheffield", "Yorkshire"
-    table.add "Bristol"
+  it "supports an alternative syntax based on hashes" do
+    table = TinyTable.new('City', 'County', 'Mayor')
+    table.add 'City' => "London", 'Mayor' => "Boris Johnson", 'County' => "Greater London"
+    table.add 'City' => "Sheffield", 'County' => "Yorkshire"
+    table.add 'Mayor' => "Peter Soulsby", 'City' => "Leicester"
     table.to_text.should == <<-EOF
 +-----------+----------------+---------------+
 | City      | County         | Mayor         |
 +-----------+----------------+---------------+
 | London    | Greater London | Boris Johnson |
 | Sheffield | Yorkshire      |               |
-| Bristol   |                |               |
+| Leicester |                | Peter Soulsby |
 +-----------+----------------+---------------+
     EOF
   end

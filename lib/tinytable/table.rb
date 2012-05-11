@@ -10,7 +10,7 @@ module TinyTable
     end
 
     def add(*args)
-      row = args.first.is_a?(Array) ? args.first : args
+      row = extract_row_args(args)
       rows << row
     end
     alias_method :<<, :add
@@ -30,6 +30,21 @@ module TinyTable
     def to_text
       formatter = TinyTable::TextFormatter.new(self)
       formatter.render
+    end
+
+  private
+
+    def extract_row_args(args)
+      case args.first
+      when Array
+        args.first
+      when Hash
+        if has_header?
+          header.map { |key| args.first[key] }
+        end
+      else
+        args
+      end
     end
   end
 end
