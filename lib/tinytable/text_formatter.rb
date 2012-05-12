@@ -31,9 +31,11 @@ module TinyTable
     end
 
     def render_rows
-      hr
-      @table.each_row { |row| render_row(row) }
-      hr
+      if @table.has_rows?
+        hr
+        @table.each_row { |row| render_row(row) }
+        hr
+      end
     end
 
     def render_footer

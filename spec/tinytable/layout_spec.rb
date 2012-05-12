@@ -1,7 +1,7 @@
 require File.expand_path('../../../lib/tinytable/layout', __FILE__)
 
 describe TinyTable::Layout do
-  let(:table) { stub(:table, :has_header? => false, :has_footer? => false) }
+  let(:table) { stub(:table, :has_header? => false, :has_rows? => true, :has_footer? => false) }
   subject { TinyTable::Layout.new(table) }
 
   it "knows how many columns a table has" do
@@ -39,5 +39,11 @@ describe TinyTable::Layout do
     row2 = ["Liverpool", 830_112]
     table.stub(:each_row).and_yield(row1).and_yield(row2)
     subject.max_column_widths.should == [9, 7]
+  end
+
+  it "correctly deals with completely empty tables" do
+    table.stub(:has_rows?) { false }
+    subject.max_column_widths.should == []
+    subject.column_count.should be_zero
   end
 end

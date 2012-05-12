@@ -20,6 +20,12 @@ describe TinyTable::Table do
     end
   end
 
+  it "knows whether it contains any rows" do
+    subject.should_not have_rows
+    subject << row
+    subject.should have_rows
+  end
+
   it "uses a TextFormatter to output an ASCII table" do
     formatter = stub(:formatter, :render => "ASCII table")
     TinyTable::TextFormatter.stub(:new).with(subject) { formatter }

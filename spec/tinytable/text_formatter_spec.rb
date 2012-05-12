@@ -5,7 +5,7 @@ module TinyTable
 end
 
 describe TinyTable::TextFormatter do
-  let(:table) { stub(:table, :has_header? => false, :has_footer? => false) }
+  let(:table) { stub(:table, :has_header? => false, :has_rows? => true, :has_footer? => false) }
   let(:layout) { stub(:layout, :column_count => 2) }
   before { TinyTable::Layout.stub(:new).with(table) { layout } }
   subject { TinyTable::TextFormatter.new(table) }
@@ -81,5 +81,12 @@ describe TinyTable::TextFormatter do
 | Sheffield | Yorkshire      |               |
 +-----------+----------------+---------------+
     EOF
+  end
+
+  it "returns an empty string if the table is completely empty" do
+    table.stub(:has_rows?) { false }
+    layout.stub(:max_column_widths) { [] }
+    layout.stub(:column_count) { 0 }
+    subject.render.should == ''
   end
 end

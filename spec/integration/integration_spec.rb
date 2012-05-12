@@ -68,6 +68,10 @@ describe "A Tiny Table" do
     EOF
   end
 
+  it "returns an empty string if the table is completely empty" do
+    TinyTable.new.to_text.should == ''
+  end
+
   it "correctly handles rows with fewer cells than the rest" do
     table = TinyTable.new("City", "County", "Mayor")
     table.add "London", "Greater London", "Boris Johnson"

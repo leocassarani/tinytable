@@ -19,6 +19,10 @@ module TinyTable
       !(header.nil? || header.empty?)
     end
 
+    def has_rows?
+      !rows.empty?
+    end
+
     def has_footer?
       !(footer.nil? || footer.empty?)
     end

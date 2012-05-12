@@ -14,15 +14,21 @@ module TinyTable
       @max_column_widths = []
 
       analyze_header
-      @table.each_row do |row|
-        analyze_row(row)
-      end
+      analyze_rows
       analyze_footer
     end
 
     def analyze_header
       if @table.has_header?
         analyze_row(@table.header)
+      end
+    end
+
+    def analyze_rows
+      if @table.has_rows?
+        @table.each_row do |row|
+          analyze_row(row)
+        end
       end
     end
 
