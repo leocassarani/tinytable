@@ -4,8 +4,8 @@ require File.expand_path('../lib/tinytable/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Leo Cassarani"]
   gem.email         = ["leo.cassarani@me.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = %q{Simple ASCII table generation in Ruby.}
+  gem.summary       = %q{TinyTable lets you create and output simple ASCII tables with minimal effort.}
   gem.homepage      = "https://github.com/leocassarani/tinytable"
 
   gem.files         = `git ls-files`.split($\)

@@ -1,6 +1,8 @@
 # Tinytable
 
-TODO: Write a gem description
+TinyTable is a Ruby gem that lets you create and output simple ASCII tables with minimal effort. It draws heavy inspiration from [Ruport](https://github.com/ruport/ruport) but, unlike Ruport, it has a very simple and focused API, and no external dependencies.
+
+TinyTable is particularly well-suited to formatting the results of a Rake task or test suite. The output of `rake stats` is a perfect example of the kind of thing you might choose to use TinyTable for.
 
 ## Installation
 
