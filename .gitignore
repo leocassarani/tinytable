@@ -3,6 +3,7 @@
 .bundle
 .config
 .rspec
+.rvmrc
 .yardoc
 .DS_Store
 Gemfile.lock
