@@ -1,4 +1,4 @@
-# Tinytable
+# TinyTable
 
 TinyTable is a Ruby gem that lets you create and output simple ASCII tables with minimal effort. It draws heavy inspiration from [Ruport](https://github.com/ruport/ruport) but, unlike Ruport, it has a very simple and focused API, and no external dependencies.
 
