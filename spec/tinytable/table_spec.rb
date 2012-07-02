@@ -8,7 +8,7 @@ describe TinyTable::Table do
   let(:table) { TinyTable::Table.new }
   let(:row) { %w[Liverpool Merseyside] }
 
-  it "can store and recall rows" do
+  it "stores and recalls rows" do
     table << row
     table.rows.should == [row]
   end
@@ -32,7 +32,7 @@ describe TinyTable::Table do
     table.to_text.should == "ASCII table"
   end
 
-  it "can store and recall a header row" do
+  it "stores and recalls a header row" do
     table.header = ["City", "County"]
     table.header.should == ["City", "County"]
   end
@@ -43,7 +43,7 @@ describe TinyTable::Table do
     table.rows.should == [row]
   end
 
-  it "can store and recall a footer row" do
+  it "stores and recalls a footer row" do
     table.footer = ["Total", "123.45"]
     table.footer.should == ["Total", "123.45"]
   end
@@ -97,9 +97,9 @@ describe TinyTable::Table do
     ]
   end
 
-  it "inserts an empty row if a hash is given without a header row" do
-    table.add 'City' => "Reading", 'County' => "Berkshire"
-    table.add 'Party' => "Labour", 'Leader' => "Ed Milliband"
-    table.rows.should == [[], []]
+  it "raises an ArgumentError if a hash is given without a header row" do
+    lambda {
+      table.add 'City' => "Reading", 'County' => "Berkshire"
+    }.should raise_error(ArgumentError)
   end
 end

@@ -46,7 +46,7 @@ module TinyTable
         if has_header?
           header.map { |key| args.first[key] }
         else
-          []
+          raise ArgumentError.new("Received a Hash but no header row was given")
         end
       else
         args
