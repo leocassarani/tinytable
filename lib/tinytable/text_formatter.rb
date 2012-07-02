@@ -11,7 +11,7 @@ module TinyTable
     end
 
     def render
-      @output.clear
+      clear_output
       precompute_table_layout
 
       render_header
@@ -85,6 +85,14 @@ module TinyTable
 
     def new_line
       append "\n"
+    end
+
+    def clear_output
+      if RUBY_VERSION < "1.9"
+        @output = ''
+      else
+        @output.clear
+      end
     end
 
     def precompute_table_layout
