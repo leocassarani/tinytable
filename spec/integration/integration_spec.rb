@@ -1,6 +1,6 @@
 require File.expand_path('../../../lib/tinytable', __FILE__)
 
-describe "A Tiny Table" do
+describe "a tiny table" do
   it "supports tables with no header or footer" do
     table = TinyTable::Table.new
     table << ["London", "Greater London"]
@@ -108,10 +108,10 @@ describe "A Tiny Table" do
   end
 
   it "supports an alternative syntax based on hashes" do
-    table = TinyTable::Table.new('City', 'County', 'Mayor')
-    table.add 'City' => "London", 'Mayor' => "Boris Johnson", 'County' => "Greater London"
-    table.add 'City' => "Sheffield", 'County' => "Yorkshire"
-    table.add 'Mayor' => "Peter Soulsby", 'City' => "Leicester"
+    table = TinyTable::Table.new("City", "County", "Mayor")
+    table.add "City" => "London", "Mayor" => "Boris Johnson", "County" => "Greater London"
+    table.add "City" => "Sheffield", "County" => "Yorkshire"
+    table.add "Mayor" => "Peter Soulsby", "City" => "Leicester"
     table.to_text.should == <<-EOF
 +-----------+----------------+---------------+
 | City      | County         | Mayor         |
@@ -120,6 +120,24 @@ describe "A Tiny Table" do
 | Sheffield | Yorkshire      |               |
 | Leicester |                | Peter Soulsby |
 +-----------+----------------+---------------+
+    EOF
+  end
+
+  it "allows the user to specify the alignment of column text" do
+    pending
+    table = TinyTable::Table.new("City", "County", "Population")
+    table.align_left("City")
+    table.align_right("County")
+    table.align_right("Mayor")
+    table.add "City" => "London", "County" => "Greater London", "Population" => 8_294_058
+    table.add "Birmingham", "West Midlands", 2_293_099
+    table.to_text.should == <<-EOF
++------------+----------------+------------+
+| City       |         County | Population |
++------------+----------------+------------+
+| London     | Greater London |    8294058 |
+| Birmingham |  West Midlands |    2293099 |
++------------+----------------+------------+
     EOF
   end
 end

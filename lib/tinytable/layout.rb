@@ -4,19 +4,20 @@ module TinyTable
 
     def initialize(table)
       @table = table
-      analyze_table_layout
     end
 
-  private
-
-    def analyze_table_layout
+    def analyze
       @column_count = 0
       @max_column_widths = []
 
       analyze_header
       analyze_rows
       analyze_footer
+
+      self
     end
+
+    private
 
     def analyze_header
       if @table.has_header?
@@ -39,11 +40,11 @@ module TinyTable
     end
 
     def analyze_row(row)
-      if row.count > @column_count
-        @column_count = row.count
+      if row.cell_count > @column_count
+        @column_count = row.cell_count
       end
 
-      row.each_with_index do |cell, i|
+      row.each_cell_with_index do |cell, i|
         analyze_cell(cell, i)
       end
     end
@@ -51,7 +52,7 @@ module TinyTable
     def analyze_cell(cell, i)
       @max_column_widths[i] ||= 0
       max_width = @max_column_widths[i]
-      cell_width = cell.to_s.length
+      cell_width = cell.text.length
 
       if cell_width > max_width
         @max_column_widths[i] = cell_width

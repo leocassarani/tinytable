@@ -1,6 +1,6 @@
 module TinyTable
   class Table
-    attr_accessor :header, :footer
+    attr_writer :header, :footer
     attr_reader :rows
 
     def initialize(*args)
@@ -27,8 +27,19 @@ module TinyTable
       !(footer.nil? || footer.empty?)
     end
 
+    def header
+      Row.new(@header)
+    end
+
     def each_row(&block)
-      rows.each(&block)
+      rows.each do |cells|
+        row = Row.new(cells)
+        block.call(row)
+      end
+    end
+
+    def footer
+      Row.new(@footer)
     end
 
     def to_text
@@ -36,7 +47,7 @@ module TinyTable
       formatter.render
     end
 
-  private
+    private
 
     def extract_row_args(args)
       case args.first

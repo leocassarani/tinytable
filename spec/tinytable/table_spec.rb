@@ -1,4 +1,6 @@
 require File.expand_path('../../../lib/tinytable/table', __FILE__)
+require File.expand_path('../../../lib/tinytable/row', __FILE__)
+require File.expand_path('../../../lib/tinytable/cell', __FILE__)
 
 module TinyTable
   class TextFormatter ; end
@@ -15,8 +17,10 @@ describe TinyTable::Table do
 
   it "exposes an iterator over the rows" do
     table << row
+    row_obj = stub(:row_obj)
+    TinyTable::Row.stub(:new).with(row) { row_obj }
     table.each_row do |r|
-      r.should == row
+      r.should == row_obj
     end
   end
 

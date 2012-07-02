@@ -1,9 +1,17 @@
+require File.expand_path('../constants', __FILE__)
+
 module TinyTable
   class TextFormatter
     CORNER = '+'
     VERTICAL = '|'
     HORIZONTAL = '-'
     PADDING = ' '
+
+    STRING_ALIGN = {
+      LEFT_ALIGN => :ljust,
+      CENTER_ALIGN => :center,
+      RIGHT_ALIGN => :rjust
+    }
 
     def initialize(table)
       @table = table
@@ -21,7 +29,7 @@ module TinyTable
       @output
     end
 
-  private
+    private
 
     def render_header
       if @table.has_header?
@@ -58,22 +66,19 @@ module TinyTable
       append VERTICAL
 
       @column_count.times do |i|
-        cell = row.fetch(i, '')
+        cell = row.cell_at(i)
         render_cell(cell, i)
       end
 
       new_line
     end
 
-    def render_cell(text, i)
+    def render_cell(cell, i)
       append PADDING
-      append text
 
-      cell_width = @column_widths[i]
-      text_width = text.to_s.length
-      if text_width < cell_width
-        append PADDING * (cell_width - text_width)
-      end
+      method = STRING_ALIGN[cell.alignment]
+      text = cell.text.__send__(method, @column_widths[i], PADDING)
+      append text
 
       append PADDING
       append VERTICAL
@@ -96,7 +101,7 @@ module TinyTable
     end
 
     def precompute_table_layout
-      layout = Layout.new(@table)
+      layout = Layout.new(@table).analyze
       @column_count = layout.column_count
       @column_widths = layout.max_column_widths
     end
