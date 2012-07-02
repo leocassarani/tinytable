@@ -2,7 +2,7 @@ require File.expand_path('../../../lib/tinytable', __FILE__)
 
 describe "A Tiny Table" do
   it "supports tables with no header or footer" do
-    table = TinyTable.new
+    table = TinyTable::Table.new
     table << ["London", "Greater London"]
     table << ["Birmingham", "West Midlands"]
     table << ["Manchester", "Greater Manchester"]
@@ -16,7 +16,7 @@ describe "A Tiny Table" do
   end
 
   it "supports a header" do
-    table = TinyTable.new(%w[City County])
+    table = TinyTable::Table.new(%w[City County])
     table << ["Liverpool", "Merseyside"]
     table << ["Newcastle", "Tyne & Wear"]
     table << ["Nottingham", "Nottinghamshire"]
@@ -32,7 +32,7 @@ describe "A Tiny Table" do
   end
 
   it "supports a footer" do
-    table = TinyTable.new
+    table = TinyTable::Table.new
     table << ["Londoners", 8_294_058]
     table << ["Brummies", 2_293_099]
     table << ["Mancunians", 1_741_961]
@@ -49,7 +49,7 @@ describe "A Tiny Table" do
   end
 
   it "supports both a header and a footer" do
-    table = TinyTable.new
+    table = TinyTable::Table.new
     table.header = %w[City County Population]
     table << ["London", "Greater London", 8_294_058]
     table << ["Birmingham", "West Midlands", 2_293_099]
@@ -69,11 +69,11 @@ describe "A Tiny Table" do
   end
 
   it "returns an empty string if the table is completely empty" do
-    TinyTable.new.to_text.should == ''
+    TinyTable::Table.new.to_text.should == ''
   end
 
   it "correctly handles rows with fewer cells than the rest" do
-    table = TinyTable.new("City", "County", "Mayor")
+    table = TinyTable::Table.new("City", "County", "Mayor")
     table.add "London", "Greater London", "Boris Johnson"
     table.add "Sheffield", "Yorkshire"
     table.add "Bristol"
@@ -89,7 +89,7 @@ describe "A Tiny Table" do
   end
 
   it "supports an alternative syntax based on argument lists" do
-    table = TinyTable.new("City", "County", "Population")
+    table = TinyTable::Table.new("City", "County", "Population")
     table.add "London", "Greater London", 8_294_058
     table.add "Birmingham", "West Midlands", 2_293_099
     table.add "Manchester", "Greater Manchester", 1_741_961
@@ -108,7 +108,7 @@ describe "A Tiny Table" do
   end
 
   it "supports an alternative syntax based on hashes" do
-    table = TinyTable.new('City', 'County', 'Mayor')
+    table = TinyTable::Table.new('City', 'County', 'Mayor')
     table.add 'City' => "London", 'Mayor' => "Boris Johnson", 'County' => "Greater London"
     table.add 'City' => "Sheffield", 'County' => "Yorkshire"
     table.add 'Mayor' => "Peter Soulsby", 'City' => "Leicester"
