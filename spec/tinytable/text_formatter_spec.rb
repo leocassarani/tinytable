@@ -7,13 +7,13 @@ end
 describe TinyTable::TextFormatter do
   let(:table) { stub(:table, :has_header? => false, :has_rows? => true, :has_footer? => false) }
   let(:layout) { stub(:layout, :column_count => 2) }
+  let(:formatter) { TinyTable::TextFormatter.new(table) }
   before { TinyTable::Layout.stub(:new).with(table) { layout } }
-  subject { TinyTable::TextFormatter.new(table) }
 
   it "formats a TinyTable as an ASCII table" do
     table.stub(:each_row).and_yield(%w[Liverpool Merseyside])
     layout.stub(:max_column_widths) { ["Liverpool".length, "Merseyside".length] }
-    subject.render.should == <<-EOF
+    formatter.render.should == <<-EOF
 +-----------+------------+
 | Liverpool | Merseyside |
 +-----------+------------+
@@ -25,7 +25,7 @@ describe TinyTable::TextFormatter do
     row2 = %w[Nottingham Nottinghamshire]
     table.stub(:each_row).and_yield(row1).and_yield(row2)
     layout.stub(:max_column_widths) { ["Nottingham".length, "Nottinghamshire".length] }
-    subject.render.should == <<-EOF
+    formatter.render.should == <<-EOF
 +------------+-----------------+
 | Liverpool  | Merseyside      |
 | Nottingham | Nottinghamshire |
@@ -39,7 +39,7 @@ describe TinyTable::TextFormatter do
     table.stub(:each_row).and_yield(%w[Southampton Hampshire])
     layout.stub(:max_column_widths) { ["Southampton".length, "Hampshire".length] }
 
-    subject.render.should == <<-EOF
+    formatter.render.should == <<-EOF
 +-------------+-----------+
 | City        | County    |
 +-------------+-----------+
@@ -57,7 +57,7 @@ describe TinyTable::TextFormatter do
     table.stub(:each_row).and_yield(row1).and_yield(row2)
 
     layout.stub(:max_column_widths) { ["Londoners".length, "10587157".length] }
-    subject.render.should == <<-EOF
+    formatter.render.should == <<-EOF
 +-----------+----------+
 | Londoners | 8294058  |
 | Brummies  | 2293099  |
@@ -75,7 +75,7 @@ describe TinyTable::TextFormatter do
     layout.stub(:max_column_widths) { ["Sheffield".length, "Greater London".length, "Boris Johnson".length] }
     layout.stub(:column_count) { 3 }
 
-    subject.render.should == <<-EOF
+    formatter.render.should == <<-EOF
 +-----------+----------------+---------------+
 | London    | Greater London | Boris Johnson |
 | Sheffield | Yorkshire      |               |
@@ -87,6 +87,6 @@ describe TinyTable::TextFormatter do
     table.stub(:has_rows?) { false }
     layout.stub(:max_column_widths) { [] }
     layout.stub(:column_count) { 0 }
-    subject.render.should == ''
+    formatter.render.should == ''
   end
 end
