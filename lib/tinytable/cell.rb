@@ -16,5 +16,9 @@ module TinyTable
     def text
       @text.to_s
     end
+
+    def width
+      text.length
+    end
   end
 end

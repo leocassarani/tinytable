@@ -52,10 +52,9 @@ module TinyTable
     def analyze_cell(cell, i)
       @max_column_widths[i] ||= 0
       max_width = @max_column_widths[i]
-      cell_width = cell.text.length
 
-      if cell_width > max_width
-        @max_column_widths[i] = cell_width
+      if cell.width > max_width
+        @max_column_widths[i] = cell.width
       end
     end
   end
