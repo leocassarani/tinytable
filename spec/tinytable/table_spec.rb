@@ -115,4 +115,15 @@ describe TinyTable::Table do
       row.cell_at(0).alignment.should == TinyTable::RIGHT
     end
   end
+
+  it "can use integers to specify the column to align" do
+    table.header = "City", "County"
+    table.align(0, TinyTable::CENTER)
+    table.align(1, TinyTable::RIGHT)
+    table << ["London", "Greater London"]
+    table.each_row do |row|
+      row.cell_at(0).alignment.should == TinyTable::CENTER
+      row.cell_at(1).alignment.should == TinyTable::RIGHT
+    end
+  end
 end

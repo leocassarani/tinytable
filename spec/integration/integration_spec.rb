@@ -126,7 +126,6 @@ describe "a tiny table" do
   it "allows the user to specify the alignment of column text" do
     table = TinyTable::Table.new("City", "County", "Population")
     table.align("City", TinyTable::CENTER)
-    table.align("County", TinyTable::LEFT)
     table.align("Population", TinyTable::RIGHT)
     table.add "London", "Greater London", 8_294_058
     table.add "Sheffield", "Yorkshire", 2_293_099

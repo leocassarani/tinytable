@@ -30,7 +30,7 @@ module TinyTable
 
     def cell_at(idx)
       text = @cells.fetch(idx, '')
-      alignment = @alignments.fetch(idx, LEFT)
+      alignment = @alignments[idx] || LEFT
       Cell.new(text, alignment)
     end
   end
