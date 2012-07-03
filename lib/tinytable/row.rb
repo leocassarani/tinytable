@@ -1,19 +1,25 @@
+require 'forwardable'
 require 'tinytable/constants'
 
 module TinyTable
   class Row
-    include Comparable
+    extend Forwardable
+    def_delegators :@cells, :empty?, :map
 
-    def initialize(cells)
-      @cells = cells
+    attr_reader :cells
+
+    def initialize(cells, alignments = [])
+      @cells = cells || []
+      @alignments = alignments
     end
 
-    def <=>(obj)
-      @cells <=> obj
+    def ==(obj)
+      return false unless obj.is_a? Row
+      @cells == obj.cells
     end
 
-    def empty?
-      @cells.nil? || @cells.empty?
+    def cell_count
+      @cells.count
     end
 
     def each_cell_with_index(&block)
@@ -24,15 +30,8 @@ module TinyTable
 
     def cell_at(idx)
       text = @cells.fetch(idx, '')
-      Cell.new(text, LEFT_ALIGN)
-    end
-
-    def cell_count
-      @cells.count
-    end
-
-    def map(&block)
-      @cells.map(&block)
+      alignment = @alignments.fetch(idx, LEFT)
+      Cell.new(text, alignment)
     end
   end
 end

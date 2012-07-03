@@ -16,9 +16,9 @@ describe TinyTable::Table do
   end
 
   it "exposes an iterator over the rows" do
-    table << row
     row_obj = stub(:row_obj)
-    TinyTable::Row.stub(:new).with(row) { row_obj }
+    TinyTable::Row.stub(:new).with(row, anything) { row_obj }
+    table << row
     table.each_row do |r|
       r.should == row_obj
     end
@@ -38,7 +38,7 @@ describe TinyTable::Table do
 
   it "stores and recalls a header row" do
     table.header = ["City", "County"]
-    table.header.should == ["City", "County"]
+    table.header.should == TinyTable::Row.new(["City", "County"])
   end
 
   it "doesn't return the header along with regular rows" do
@@ -49,7 +49,7 @@ describe TinyTable::Table do
 
   it "stores and recalls a footer row" do
     table.footer = ["Total", "123.45"]
-    table.footer.should == ["Total", "123.45"]
+    table.footer.should == TinyTable::Row.new(["Total", "123.45"])
   end
 
   it "doesn't return the footer along with regular rows" do
@@ -71,24 +71,24 @@ describe TinyTable::Table do
 
   it "supports a number of different ways to set the header" do
     table.header = ["City", "County"]
-    table.header.should == ["City", "County"]
+    table.header.should == TinyTable::Row.new(["City", "County"])
 
     table.header = "City", "County"
-    table.header.should == ["City", "County"]
+    table.header.should == TinyTable::Row.new(["City", "County"])
 
     table = TinyTable::Table.new("City", "County")
-    table.header.should == ["City", "County"]
+    table.header.should == TinyTable::Row.new(["City", "County"])
 
     table = TinyTable::Table.new ["City", "County"]
-    table.header.should == ["City", "County"]
+    table.header.should == TinyTable::Row.new(["City", "County"])
   end
 
   it "supports a number of different ways to set the footer" do
     table.footer = ["Total", "300"]
-    table.footer.should == ["Total", "300"]
+    table.footer.should == TinyTable::Row.new(["Total", "300"])
 
     table.footer = "Total", "300"
-    table.footer.should == ["Total", "300"]
+    table.footer.should == TinyTable::Row.new(["Total", "300"])
   end
 
   it "allows a row to be entered as a hash with header titles as its keys" do
@@ -105,5 +105,14 @@ describe TinyTable::Table do
     lambda {
       table.add 'City' => "Reading", 'County' => "Berkshire"
     }.should raise_error(ArgumentError)
+  end
+
+  it "allows the user to specify the alignment for a column" do
+    table.header = "City"
+    table.align("City", TinyTable::RIGHT)
+    table << ["London"]
+    table.each_row do |row|
+      row.cell_at(0).alignment.should == TinyTable::RIGHT
+    end
   end
 end

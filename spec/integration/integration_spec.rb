@@ -124,20 +124,19 @@ describe "a tiny table" do
   end
 
   it "allows the user to specify the alignment of column text" do
-    pending
     table = TinyTable::Table.new("City", "County", "Population")
-    table.align_left("City")
-    table.align_right("County")
-    table.align_right("Mayor")
-    table.add "City" => "London", "County" => "Greater London", "Population" => 8_294_058
-    table.add "Birmingham", "West Midlands", 2_293_099
+    table.align("City", TinyTable::CENTER)
+    table.align("County", TinyTable::LEFT)
+    table.align("Population", TinyTable::RIGHT)
+    table.add "London", "Greater London", 8_294_058
+    table.add "Sheffield", "Yorkshire", 2_293_099
     table.to_text.should == <<-EOF
-+------------+----------------+------------+
-| City       |         County | Population |
-+------------+----------------+------------+
-| London     | Greater London |    8294058 |
-| Birmingham |  West Midlands |    2293099 |
-+------------+----------------+------------+
++-----------+----------------+------------+
+|   City    | County         | Population |
++-----------+----------------+------------+
+|  London   | Greater London |    8294058 |
+| Sheffield | Yorkshire      |    2293099 |
++-----------+----------------+------------+
     EOF
   end
 end

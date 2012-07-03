@@ -8,9 +8,9 @@ module TinyTable
     PADDING = ' '
 
     STRING_ALIGN = {
-      LEFT_ALIGN => :ljust,
-      CENTER_ALIGN => :center,
-      RIGHT_ALIGN => :rjust
+      LEFT => :ljust,
+      CENTER => :center,
+      RIGHT => :rjust
     }
 
     def initialize(table)

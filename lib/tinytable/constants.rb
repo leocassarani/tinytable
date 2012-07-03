@@ -1,5 +1,5 @@
 module TinyTable
-  LEFT_ALIGN = :left
-  CENTER_ALIGN = :center
-  RIGHT_ALIGN = :right
+  LEFT = :left
+  CENTER = :center
+  RIGHT = :right
 end

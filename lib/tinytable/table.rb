@@ -7,6 +7,7 @@ module TinyTable
       header = args.first.is_a?(Array) ? args.first : args
       @header = header
       @rows = []
+      @alignments = []
     end
 
     def add(*args)
@@ -14,6 +15,18 @@ module TinyTable
       rows << row
     end
     alias_method :<<, :add
+
+    def align(column, alignment)
+      idx = case column
+      when String
+        @header.index(column)
+      when Fixnum
+        column
+      else
+        raise ArgumentError.new("Received a #{column.class} but expecting a Fixnum or String")
+      end
+      @alignments[idx] = alignment unless idx.nil?
+    end
 
     def has_header?
       !(header.nil? || header.empty?)
@@ -28,23 +41,22 @@ module TinyTable
     end
 
     def header
-      Row.new(@header)
+      Row.new(@header, @alignments)
     end
 
     def each_row(&block)
       rows.each do |cells|
-        row = Row.new(cells)
+        row = Row.new(cells, @alignments)
         block.call(row)
       end
     end
 
     def footer
-      Row.new(@footer)
+      Row.new(@footer, @alignments)
     end
 
     def to_text
-      formatter = TinyTable::TextFormatter.new(self)
-      formatter.render
+      TinyTable::TextFormatter.new(self).render
     end
 
     private

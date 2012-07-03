@@ -7,6 +7,12 @@ module TinyTable
       @alignment = alignment
     end
 
+    def ==(obj)
+      return false unless obj.is_a? Cell
+      @text == obj.text &&
+        @alignment == obj.alignment
+    end
+
     def text
       @text.to_s
     end
