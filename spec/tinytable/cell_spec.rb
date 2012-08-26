@@ -10,8 +10,8 @@ describe TinyTable::Cell do
     TinyTable::Cell.new(nil, TinyTable::LEFT).text.should == ''
   end
 
-  it "is equal to another cell with same text and alignment" do
-    a1 = TinyTable::Cell.new('a', TinyTable::LEFT)
+  it "is equal to another cell with same (string) text and alignment" do
+    a1 = TinyTable::Cell.new(:a, TinyTable::LEFT)
     a2 = TinyTable::Cell.new('a', TinyTable::LEFT)
     a1.should == a2
   end
