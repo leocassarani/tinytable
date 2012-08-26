@@ -16,7 +16,7 @@ describe TinyTable::Table do
   end
 
   it "exposes an iterator over the rows" do
-    row_obj = stub(:row_obj)
+    row_obj = mock(:row_obj)
     TinyTable::Row.stub(:new).with(row, anything) { row_obj }
     table << row
     table.each_row do |r|
@@ -31,7 +31,7 @@ describe TinyTable::Table do
   end
 
   it "uses a TextFormatter to render an ASCII representation of the table" do
-    formatter = stub(:formatter, :render => "ASCII table")
+    formatter = mock(:formatter, :render => "ASCII table")
     TinyTable::TextFormatter.stub(:new).with(table) { formatter }
     table.to_text.should == "ASCII table"
   end

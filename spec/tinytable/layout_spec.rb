@@ -3,7 +3,7 @@ require File.expand_path('../../../lib/tinytable/row', __FILE__)
 require File.expand_path('../../../lib/tinytable/cell', __FILE__)
 
 describe TinyTable::Layout do
-  let(:table) { stub(:table, :has_header? => false, :has_rows? => true, :has_footer? => false) }
+  let(:table) { mock(:table, :has_header? => false, :has_rows? => true, :has_footer? => false) }
   let(:layout) { TinyTable::Layout.new(table).analyze }
 
   it "knows how many columns a table has" do

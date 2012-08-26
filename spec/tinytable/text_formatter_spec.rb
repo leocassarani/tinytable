@@ -11,10 +11,10 @@ describe TinyTable::TextFormatter do
     TinyTable::Row.new(row)
   end
 
-  let(:table) { stub(:table, :has_header? => false,
+  let(:table) { mock(:table, :has_header? => false,
                              :has_rows? => true,
                              :has_footer? => false) }
-  let(:layout) { stub(:layout, :column_count => 2) }
+  let(:layout) { mock(:layout, :column_count => 2) }
   let(:formatter) { TinyTable::TextFormatter.new(table) }
   before do
     layout.stub(:analyze) { layout }
