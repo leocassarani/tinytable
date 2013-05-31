@@ -6,6 +6,7 @@ module TinyTable
     def initialize(*args)
       header = args.first.is_a?(Array) ? args.first : args
       @header = header
+      @footer = nil
       @rows = []
       @alignments = []
     end
