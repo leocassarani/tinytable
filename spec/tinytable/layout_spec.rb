@@ -45,7 +45,7 @@ describe TinyTable::Layout do
 
   it "correctly deals with completely empty tables" do
     table.stub(:has_rows?) { false }
-    layout.max_column_widths.should == []
+    layout.max_column_widths.should eq []
     layout.column_count.should be_zero
   end
 end

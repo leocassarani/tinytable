@@ -71,24 +71,24 @@ describe TinyTable::Table do
 
   it "supports a number of different ways to set the header" do
     table.header = ["City", "County"]
-    table.header.should == TinyTable::Row.new(["City", "County"])
+    table.header.should eq TinyTable::Row.new(["City", "County"])
 
     table.header = "City", "County"
-    table.header.should == TinyTable::Row.new(["City", "County"])
+    table.header.should eq TinyTable::Row.new(["City", "County"])
 
     table = TinyTable::Table.new("City", "County")
-    table.header.should == TinyTable::Row.new(["City", "County"])
+    table.header.should eq TinyTable::Row.new(["City", "County"])
 
     table = TinyTable::Table.new ["City", "County"]
-    table.header.should == TinyTable::Row.new(["City", "County"])
+    table.header.should eq TinyTable::Row.new(["City", "County"])
   end
 
   it "supports a number of different ways to set the footer" do
     table.footer = ["Total", "300"]
-    table.footer.should == TinyTable::Row.new(["Total", "300"])
+    table.footer.should eq TinyTable::Row.new(["Total", "300"])
 
     table.footer = "Total", "300"
-    table.footer.should == TinyTable::Row.new(["Total", "300"])
+    table.footer.should eq TinyTable::Row.new(["Total", "300"])
   end
 
   it "allows a row to be entered as a hash with header titles as its keys" do
@@ -122,8 +122,8 @@ describe TinyTable::Table do
     table.align(1, TinyTable::RIGHT)
     table << ["London", "Greater London"]
     table.each_row do |row|
-      row.cell_at(0).alignment.should == TinyTable::CENTER
-      row.cell_at(1).alignment.should == TinyTable::RIGHT
+      row.cell_at(0).alignment.should eq TinyTable::CENTER
+      row.cell_at(1).alignment.should eq TinyTable::RIGHT
     end
   end
 end

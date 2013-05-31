@@ -4,8 +4,8 @@ require File.expand_path('../../../lib/tinytable/cell', __FILE__)
 describe TinyTable::Row do
   it "returns cells with the correct alignment" do
     row = TinyTable::Row.new(['a', 'b'], [TinyTable::RIGHT, TinyTable::LEFT])
-    row.cell_at(0).should == TinyTable::Cell.new('a', TinyTable::RIGHT)
-    row.cell_at(1).should == TinyTable::Cell.new('b', TinyTable::LEFT)
+    row.cell_at(0).should eq TinyTable::Cell.new('a', TinyTable::RIGHT)
+    row.cell_at(1).should eq TinyTable::Cell.new('b', TinyTable::LEFT)
   end
 
   it "defaults to left alignment unless otherwise specified" do
